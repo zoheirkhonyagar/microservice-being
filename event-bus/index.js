@@ -1,6 +1,6 @@
 const express = require("express");
 const { json } = require("body-parser");
-const { axios } = require("axios");
+const axios = require("axios");
 // const cors = require("cors");
 
 const app = express();
@@ -10,14 +10,22 @@ app.use(json());
 app.post("/events", (req, res) => {
   const event = req.body;
 
+  console.log(event);
+
   // post service
-  axios.post("http://localhost:4000/events", event);
+  axios.post("http://localhost:4000/events", event).catch((err) => {
+    console.log(err);
+  });
 
   // comment service
-  axios.post("http://localhost:4002/events", event);
+  axios.post("http://localhost:4002/events", event).catch((err) => {
+    console.log(err);
+  });
 
   // query service
-  axios.post("http://localhost:4003/events", event);
+  axios.post("http://localhost:4003/events", event).catch((err) => {
+    console.log(err);
+  });
 
   res.send({ status: "OK" });
 });
