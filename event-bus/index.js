@@ -13,22 +13,23 @@ app.post("/events", (req, res) => {
   console.log(event);
 
   // post service
-  axios.post("http://localhost:4000/events", event).catch((err) => {
-    console.log(err);
-  });
+  axios.post("http://localhost:4000/events", event).catch(errorLogger);
 
   // comment service
-  axios.post("http://localhost:4002/events", event).catch((err) => {
-    console.log(err);
-  });
+  axios.post("http://localhost:4002/events", event).catch(errorLogger);
 
   // query service
-  axios.post("http://localhost:4006/events", event).catch((err) => {
-    console.log(err);
-  });
+  axios.post("http://localhost:4006/events", event).catch(errorLogger);
+
+  // broadcast to moderate service
+  axios.post("http://localhost:7000", event).catch(errorLogger);
 
   res.send({ status: "OK" });
 });
+
+const errorLogger = (err) => {
+  console.log(err);
+};
 
 app.listen(4005, () => {
   console.log("Listening on 4005");
