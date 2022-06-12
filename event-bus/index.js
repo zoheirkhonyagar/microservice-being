@@ -22,7 +22,7 @@ app.post("/events", (req, res) => {
   axios.post("http://localhost:4006/events", event).catch(errorLogger);
 
   // broadcast to moderate service
-  axios.post("http://localhost:7000", event).catch(errorLogger);
+  axios.post("http://localhost:4007/events", event).catch(errorLogger);
 
   res.send({ status: "OK" });
 });
