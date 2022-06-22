@@ -7,9 +7,12 @@ const app = express();
 app.use(json());
 // app.use(cors());
 
+const events = [];
+
 app.post("/events", (req, res) => {
   const event = req.body;
 
+  events.push(event);
   console.log(event);
 
   // post service
@@ -25,6 +28,10 @@ app.post("/events", (req, res) => {
   axios.post("http://localhost:4007/events", event).catch(errorLogger);
 
   res.send({ status: "OK" });
+});
+
+app.get("/events", (req, res) => {
+  res.send(events);
 });
 
 const errorLogger = (err) => {

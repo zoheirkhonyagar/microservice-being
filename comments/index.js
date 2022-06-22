@@ -29,15 +29,17 @@ app.post("/posts/:id/comments", async (req, res) => {
 
   commentsByPostId[req.params.id] = comments;
 
-  await axios.post("http://localhost:4005/events", {
-    type: "CommentCreated",
-    data: {
-      id: commentId,
-      content,
-      postId: req.params.id,
-      status: "pending",
-    },
-  });
+  await axios
+    .post("http://localhost:4005/events", {
+      type: "CommentCreated",
+      data: {
+        id: commentId,
+        content,
+        postId: req.params.id,
+        status: "pending",
+      },
+    })
+    .catch((err) => console.log(err));
 
   res.status(201).send(comments);
 });
@@ -56,10 +58,12 @@ app.post("/events", async (req, res) => {
 
     comment.status = status;
 
-    await axios.post("http://localhost:4006/events", {
-      type: "CommentUpdated",
-      data: { id, postId, status, content },
-    });
+    await axios
+      .post("http://localhost:4006/events", {
+        type: "CommentUpdated",
+        data: { id, postId, status, content },
+      })
+      .catch((err) => console.log(err));
   }
 
   res.send({});
